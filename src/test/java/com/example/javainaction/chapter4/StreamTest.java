@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  *
  * 생각해볼점
  * - 스트림이 항상 성능이 좋을까?
- *  - 스트림 사용이 일반 외부반복문보다 의미가 있으려면 cpu 연산이 바쁠만큼 비용이 비싸야한다
+ *  - 스트림 사용이 일반 외부반복문보다 의미가 있으려면 cpu 연산이 바쁠만큼 비용이 비싸야한다.
  *  - 병렬스트림을 사용하려면 스트림 소스인 collection 이 split 하기 쉬운 구조거나 상태가 없어야한다.
  *  - 병렬스트림 자체에 비용도 적지 않기 때문에 잘고려해야한다.
  *     - 포크조인풀 객체 생성비용, job split 비용 등 보다 연산의 복잡도가 커 단일 스트림보다 병렬스트림을 사용하는 것이 우위에 있을때 사용하자.
@@ -28,6 +28,8 @@ import java.util.stream.Stream;
  * - 중간연산은 또다른 스트림을 반환하고 중간 연산은 어떠한 결과도 생성하지 않는다
  * - 최종연산은 스트림이 아닌 결과를 반환하는 연산이다.
  * - 스트림의 요소는 요청할때 게으르게, lazy 하게 계산된다.
+ *
+ * ref: https://jypthemiracle.medium.com/java-stream-api%EB%8A%94-%EC%99%9C-for-loop%EB%B3%B4%EB%8B%A4-%EB%8A%90%EB%A6%B4%EA%B9%8C-50dec4b9974b
  */
 public class StreamTest {
 

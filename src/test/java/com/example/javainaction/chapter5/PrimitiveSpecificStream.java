@@ -10,6 +10,7 @@ import java.util.stream.Stream;
  *  mapToInt, mapToDouble, mapToLong ...
  *  Integer 는 sum 인터페이스를 제공한다.
  *
+ *
  *  반대로는?
  *  boxed 메서드를 이용해서 특화스트림 => 일반스트림으로 변환 가능하다.
  */

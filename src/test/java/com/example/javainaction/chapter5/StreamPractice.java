@@ -2,18 +2,21 @@ package com.example.javainaction.chapter5;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class StreamPractice {
 
     private List<Transaction> transactions;
 
     @BeforeAll
-    void setup(){
+    void setup() {
         Trader r = new Trader("R", "CBcity");
         Trader m = new Trader("M", "Mcity");
         Trader a = new Trader("A", "CBcity");
@@ -30,7 +33,7 @@ public class StreamPractice {
     }
 
     @Test
-    void TEST1(){
+    void TEST1() {
         // year 2011, 오름차순 정렬
 
         List<Transaction> tr2011 = transactions.stream()
@@ -40,40 +43,68 @@ public class StreamPractice {
 
     }
 
-
     @Test
-    void TEST2(){
+    void TEST2() {
         // 고유 도시 출력
+        List<String> cities = transactions.stream()
+                .map(transaction -> transaction.getTrader().getCity())
+                .distinct()
+                .collect(Collectors.toList()); // toSet() 으로 변환 가능
     }
 
     @Test
-    void TEST3(){
+    void TEST3() {
         // CBcity 거래자 이름순 정렬
+        List<Trader> traders = transactions.stream()
+                .map(transaction -> transaction.getTrader())
+                .filter(trader -> trader.getCity().equals("CBcity"))
+                .distinct()
+                .sorted(Comparator.comparing(Trader::getName))
+                .collect(Collectors.toList());
     }
 
     @Test
-    void TEST4(){
+    void TEST4() {
         // 모든 거래자 이름 정렬
+        String traderStrs = transactions.stream()
+                .map(transaction -> transaction.getTrader().getName())
+                .distinct()
+                .sorted()
+                .reduce("", (n1, n2) -> n1 + n2);
     }
 
     @Test
-    void TEST5(){
+    void TEST5() {
         // Mcity 거래자 존재 여부 출력
+        boolean McityBased = transactions.stream()
+                .anyMatch(transaction -> transaction.getTrader().getCity().equals("Mcity"));
     }
 
     @Test
-    void TEST6(){
+    void TEST6() {
         // CBcity 거래자 모든 transaction 출력
+        transactions.stream()
+                .filter(transaction -> transaction.getTrader().getCity().equals("CBcity"))
+                .map(Transaction::getValue)
+                .forEach(System.out::println);
     }
 
     @Test
-    void TEST7(){
+    void TEST7() {
         // 전체 트랜잭션중 최댓값
+        Optional<Integer> max = transactions.stream()
+                .map(Transaction::getValue)
+                .reduce(Integer::max);
+
+        System.out.println(max.orElse(-1));
     }
 
     @Test
-    void TEST8(){
+    void TEST8() {
         // 전체 트랜잭션중 최소값
+      Optional<Transaction> min = transactions.stream()
+              .min(Comparator.comparing(Transaction::getValue));
+
     }
 
 }
